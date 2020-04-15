@@ -2,7 +2,6 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const sgMail = require('@sendgrid/mail');
 const { GeoCollectionReference } = require('geofirestore');
-const slack = require('./slack');
 const { userIdsMatch, migrateResponses, deleteDocumentWithSubCollections } = require('./utils');
 
 admin.initializeApp();
@@ -233,7 +232,6 @@ exports.askForHelpCreate = functions.region('europe-west1').firestore.document('
         askForHelp: admin.firestore.FieldValue.increment(1),
       });
 
-      await slack.postToSlack(askForHelpId, askForHelpSnapData);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(e);
